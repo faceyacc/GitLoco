@@ -29,3 +29,18 @@ func TestInitalizeGit(t *testing.T) {
 		}
 	})
 }
+
+func TestCatfile(t *testing.T) {
+	test_blob_hash := "3d21ec53a331a6f037a91c368710b99387d012c1"
+	// test_string := "dooby scooby vanilla dooby vanilla humpty"
+
+	t.Run("Contruct file path to blob object", func(t *testing.T) {
+		got, _ := constructBlob(test_blob_hash)
+		expected := ".git/objects/3d/21ec53a331a6f037a91c368710b99387d012c1"
+
+		if got != expected {
+			t.Errorf("got %v, but expected %v", got, expected)
+		}
+	})
+
+}
