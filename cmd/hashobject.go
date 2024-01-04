@@ -24,10 +24,11 @@ to quickly create a Cobra application.`,
 		writeFile, _ := cmd.Flags().GetString("w")
 
 		if writeFile != "" {
-			_, err := hashobject(writeFile)
+			hash, err := hashobject(writeFile)
 			if err != nil {
 				fmt.Print(err)
 			}
+			fmt.Print(hash)
 		} else {
 			fmt.Fprintf(os.Stderr, "Must give a file\n")
 			os.Exit(1)

@@ -89,10 +89,7 @@ func hashobject(file string) (string, error) {
 	data := addHeader(fileData)
 
 	// Calculate the file's SHA-1 hash using crypto/sha1
-	hasher := sha1.New()
-	hasher.Write([]byte(data))
-	hash := hasher.Sum(nil)
-	sha := hex.EncodeToString(hash)
+	sha := calculateSha(data)
 
-	return string(rune(len(sha))), nil
+	return sha, nil
 }
