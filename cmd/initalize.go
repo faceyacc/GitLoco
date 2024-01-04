@@ -3,6 +3,8 @@ package cmd
 import (
 	"bytes"
 	"compress/zlib"
+	"crypto/sha1"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
@@ -23,21 +25,17 @@ func initalizeGit() {
 	}
 }
 
-func constructBlob(blob_hash string) (string, string, error) {
+func constructBlob(blob_hash string) (string, string) {
 	dir_name := blob_hash[:2]
 	file_name := blob_hash[2:]
 	blob_filepath := fmt.Sprintf(".git/objects/%v/%v", dir_name, file_name)
-	return blob_filepath, file_name, nil
+	return blob_filepath, file_name
 }
 
 func catfile(blob_hash string) (string, error) {
 
 	// Construct the file path to the blob object using the hash
-	blob_filepath, file_name, err := constructBlob(blob_hash)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error constructing blob filepath\n")
-		return "", err
-	}
+	blob_filepath, file_name := constructBlob(blob_hash)
 
 	// Try to read file
 	file, err := fs.ReadFile(os.DirFS(blob_filepath), file_name)
@@ -65,4 +63,36 @@ func catfile(blob_hash string) (string, error) {
 	fmt.Print(object)
 
 	return "", nil
+}
+
+func addHeader(fileData []byte) string {
+	data := fmt.Sprintf("blob %v\x00%v", len(fileData), string(fileData))
+	return data
+}
+
+func calculateSha(fileData string) string {
+	hasher := sha1.New()
+	hasher.Write([]byte(fileData))
+	hash := hasher.Sum(nil)
+	sha := hex.EncodeToString(hash)
+	return sha
+}
+
+func hashobject(file string) (string, error) {
+	// Read in file given (<file>) using os.ReadFile
+	fileData, err := os.ReadFile(file)
+	if err != nil {
+		return "", errors.New("Error reading file.\n")
+	}
+
+	// Add the blob header too file data (i.e. "blob"+filesize+"\x00")
+	data := addHeader(fileData)
+
+	// Calculate the file's SHA-1 hash using crypto/sha1
+	hasher := sha1.New()
+	hasher.Write([]byte(data))
+	hash := hasher.Sum(nil)
+	sha := hex.EncodeToString(hash)
+
+	return string(rune(len(sha))), nil
 }

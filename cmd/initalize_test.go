@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"testing"
+
+	"github.com/Flaque/filet"
 )
 
 func TestInitalizeGit(t *testing.T) {
@@ -36,7 +38,7 @@ func TestCatfile(t *testing.T) {
 	// test_string := "dooby scooby vanilla dooby vanilla humpty"
 
 	t.Run("contruct file path to blob object", func(t *testing.T) {
-		blob_filepath, _, _ := constructBlob(test_blob_hash)
+		blob_filepath, _ := constructBlob(test_blob_hash)
 		got := fmt.Sprintf(blob_filepath)
 		expected := ".git/objects/3d/21ec53a331a6f037a91c368710b99387d012c1"
 
@@ -69,5 +71,57 @@ func TestCatfile(t *testing.T) {
 
 		assertError(t, got, "Error reading file\n")
 	})
+}
 
+func TestHasObject(t *testing.T) {
+	assertError := func(t testing.TB, got error, want string) {
+		t.Helper()
+		if got == nil {
+			t.Fatal("didn't get an error but wanted one")
+		}
+
+		if got.Error() != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	}
+	t.Run("read file", func(t *testing.T) {
+		// defer filet.CleanUp(t)
+		// testFile := filet.File(t, "tesst.txt", "")
+
+		// expected := testFile.Name()
+		_, err := hashobject("expected")
+
+		// if got != string(expected) {
+		// 	t.Errorf("Got %v, expected %v", got, expected)
+		// }
+
+		assertError(t, err, "Error reading file.\n")
+	})
+
+	t.Run("added blob header to file", func(t *testing.T) {
+		defer filet.CleanUp(t)
+		testFile := filet.File(t, "test.txt", "hej hej")
+		file_data, _ := os.ReadFile(testFile.Name())
+
+		got := addHeader(file_data)
+		expected := fmt.Sprintf("blob %v\x00%v", len(file_data), string(file_data))
+
+		if got != expected {
+			t.Errorf("Got %v, expected %v", got, expected)
+		}
+	})
+
+	t.Run("length of sha-1", func(t *testing.T) {
+		defer filet.CleanUp(t)
+		testFile := filet.File(t, "test.txt", "hej hej")
+		file_data, _ := os.ReadFile(testFile.Name())
+		data := addHeader(file_data)
+
+		got := len(calculateSha(data))
+		expected := 40
+
+		if got != expected {
+			t.Fatalf("Expected sha hash to be %v characters long, got %v", expected, got)
+		}
+	})
 }
