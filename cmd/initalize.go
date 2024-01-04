@@ -3,8 +3,10 @@ package cmd
 import (
 	"bytes"
 	"compress/zlib"
+	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 )
 
@@ -21,26 +23,29 @@ func initalizeGit() {
 	}
 }
 
-func constructBlob(blob_hash string) (string, error) {
+func constructBlob(blob_hash string) (string, string, error) {
 	dir_name := blob_hash[:2]
 	file_name := blob_hash[2:]
 	blob_filepath := fmt.Sprintf(".git/objects/%v/%v", dir_name, file_name)
-	return blob_filepath, nil
+	return blob_filepath, file_name, nil
 }
 
-func catfile(blob_hash string) string {
+func catfile(blob_hash string) (string, error) {
 
 	// Construct the file path to the blob object using the hash
-	blob_filepath, err := constructBlob(blob_hash)
+	blob_filepath, file_name, err := constructBlob(blob_hash)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error constructing blob filepath\n")
+		return "", err
 	}
 
 	// Try to read file
-	file, err := os.ReadFile(blob_filepath)
+	file, err := fs.ReadFile(os.DirFS(blob_filepath), file_name)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error reading file\n")
+		// fmt.Fprintf(os.Stderr, "Error reading file\n")
+		return "", errors.New("Error reading file\n")
 	}
+	fmt.Printf("print test: %v", file)
 
 	// Create a new zlib reader with zlib.NewReader
 	zlib_reader, err := zlib.NewReader(bytes.NewReader(file))
@@ -59,5 +64,5 @@ func catfile(blob_hash string) string {
 	object := string(decompress)
 	fmt.Print(object)
 
-	return ""
+	return "", nil
 }

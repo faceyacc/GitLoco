@@ -4,6 +4,9 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +21,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Get arg (aka blob hash)
+		if len(args) <= 30 {
+			fmt.Fprintf(os.Stderr, "Incorrect blob hash\n")
+			os.Exit(1)
+		}
+
 		blob_hash := args[0]
-		catfile(blob_hash)
+
+		res, _ := catfile(blob_hash)
+		fmt.Print(res)
 	},
 }
 
