@@ -21,7 +21,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) <= 30 {
+		if len(args[0]) <= 30 {
+			// fmt.Printf("Printing length of args: %v || the args: %v\n", len(args), args)
 			fmt.Fprintf(os.Stderr, "Incorrect blob hash\n")
 			os.Exit(1)
 		}

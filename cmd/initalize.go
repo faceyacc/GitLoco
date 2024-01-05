@@ -8,8 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/fs"
 	"os"
+	"path"
 )
 
 func initalizeGit() {
@@ -35,15 +35,14 @@ func constructBlob(blob_hash string) (string, string) {
 func catfile(blob_hash string) (string, error) {
 
 	// Construct the file path to the blob object using the hash
-	blob_filepath, file_name := constructBlob(blob_hash)
+	blob_filepath, _ := constructBlob(blob_hash)
 
 	// Try to read file
-	file, err := fs.ReadFile(os.DirFS(blob_filepath), file_name)
+	file, err := os.ReadFile(blob_filepath)
 	if err != nil {
 		// fmt.Fprintf(os.Stderr, "Error reading file\n")
 		return "", errors.New("Error reading file\n")
 	}
-	fmt.Printf("print test: %v", file)
 
 	// Create a new zlib reader with zlib.NewReader
 	zlib_reader, err := zlib.NewReader(bytes.NewReader(file))
@@ -59,10 +58,10 @@ func catfile(blob_hash string) (string, error) {
 	defer zlib_reader.Close()
 
 	// fmt.Print() the content
-	object := string(decompress)
-	fmt.Print(object)
+	split_res := bytes.Split(decompress, []byte("\x00"))
+	object := string(split_res[len(split_res)-1])
 
-	return "", nil
+	return object, nil
 }
 
 func addHeader(fileData []byte) string {
@@ -78,6 +77,14 @@ func calculateSha(fileData string) string {
 	return sha
 }
 
+func generateDirFromSha(sha string) string {
+	blobDir := sha[:2]
+
+	dirName := fmt.Sprintf(".git/objects/%v", blobDir)
+
+	return dirName
+}
+
 func hashobject(file string) (string, error) {
 	// Read in file given (<file>) using os.ReadFile
 	fileData, err := os.ReadFile(file)
@@ -91,5 +98,29 @@ func hashobject(file string) (string, error) {
 	// Calculate the file's SHA-1 hash using crypto/sha1
 	sha := calculateSha(data)
 
+	// generate the path in ".git/objects" directory
+	// based on the first to characters and the rest
+	// of the SHA hash (i.e. ".git/objects/3d/21ec53a331a6f037a91c368710b99387d012c1")
+
+	dir := generateDirFromSha(sha)
+
+	// Make directory to using sha
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating directory: %s\n", err)
+	}
+
+	// compress the data using zlib
+	var buffer bytes.Buffer
+	w := zlib.NewWriter(&buffer)
+	w.Write([]byte(data))
+	w.Close()
+
+	blobFileName := sha[2:]
+	fullPath := path.Join(dir, blobFileName)
+
+	//  write data to file in .git/objects directory
+	os.WriteFile(fullPath, buffer.Bytes(), 0755)
+
+	// fmt.Print() the 40-character string from zlibs
 	return sha, nil
 }
