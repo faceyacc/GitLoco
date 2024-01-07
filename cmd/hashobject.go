@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/faceyacc/gitloco/internals"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +25,7 @@ to quickly create a Cobra application.`,
 		writeFile, _ := cmd.Flags().GetString("w")
 
 		if writeFile != "" {
-			hash, err := hashobject(writeFile)
+			hash, err := internals.Hashobject(writeFile)
 			if err != nil {
 				fmt.Print(err)
 			}

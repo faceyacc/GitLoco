@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -12,7 +11,7 @@ import (
 
 // lstreeCmd represents the lstree command
 var lstreeCmd = &cobra.Command{
-	Use:   "lstree",
+	Use:   "ls-tree",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:

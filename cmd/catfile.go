@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/faceyacc/gitloco/internals"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +30,7 @@ to quickly create a Cobra application.`,
 
 		blob_hash := args[0]
 
-		res, _ := catfile(blob_hash)
+		res, _ := internals.Catfile(blob_hash)
 		fmt.Print(res)
 	},
 }

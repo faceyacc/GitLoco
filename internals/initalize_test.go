@@ -1,4 +1,4 @@
-package cmd
+package internals
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 func TestInitalizeGit(t *testing.T) {
 	dirs := []string{".git", ".git/objects", ".git/refs"}
 	t.Run("initalize .git directory", func(t *testing.T) {
-		initalizeGit()
+		InitalizeGit()
 		for _, dir := range dirs {
 			if _, err := os.Stat(dir); os.IsNotExist(err) {
 				t.Error(".git directory or subdirectories were not created")
@@ -22,7 +22,7 @@ func TestInitalizeGit(t *testing.T) {
 	})
 
 	t.Run("create HEAD file", func(t *testing.T) {
-		initalizeGit()
+		InitalizeGit()
 		HEADfile := ".git/HEAD"
 		for _, dir := range dirs {
 			defer os.RemoveAll(dir)
@@ -58,7 +58,7 @@ func TestCatfile(t *testing.T) {
 				t.Errorf("got %q, want %q", got, want)
 			}
 		}
-		_, got := catfile(test_blob_hash)
+		_, got := Catfile(test_blob_hash)
 
 		assertError(t, got, "Error reading file\n")
 	})
@@ -77,7 +77,7 @@ func TestHasObject(t *testing.T) {
 	}
 	t.Run("read file", func(t *testing.T) {
 
-		_, err := hashobject("expected")
+		_, err := Hashobject("expected")
 
 		assertError(t, err, "Error reading file.\n")
 	})

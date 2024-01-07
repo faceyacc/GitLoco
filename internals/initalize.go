@@ -1,4 +1,4 @@
-package cmd
+package internals
 
 import (
 	"bytes"
@@ -12,7 +12,8 @@ import (
 	"path"
 )
 
-func initalizeGit() {
+// For init command
+func InitalizeGit() {
 	for _, dir := range []string{".git", ".git/objects", ".git/refs"} {
 		if err := os.Mkdir(dir, 0755); err != nil {
 			fmt.Fprintf(os.Stderr, "Error creating directory: %s\n", err)
@@ -32,7 +33,9 @@ func constructBlob(blob_hash string) (string, string) {
 	return blob_filepath, file_name
 }
 
-func catfile(blob_hash string) (string, error) {
+// For cat-file command
+// Reads a blob object
+func Catfile(blob_hash string) (string, error) {
 
 	// Construct the file path to the blob object using the hash
 	blob_filepath, _ := constructBlob(blob_hash)
@@ -85,7 +88,9 @@ func generateDirFromSha(sha string) string {
 	return dirName
 }
 
-func hashobject(file string) (string, error) {
+// For hash-object command
+// Creates a blob object
+func Hashobject(file string) (string, error) {
 	// Read in file given (<file>) using os.ReadFile
 	fileData, err := os.ReadFile(file)
 	if err != nil {
