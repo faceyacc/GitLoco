@@ -25,7 +25,7 @@ to quickly create a Cobra application.`,
 		writeFile, _ := cmd.Flags().GetString("w")
 
 		if writeFile != "" {
-			hash, err := internals.Hashobject(writeFile)
+			hash, err := internals.HashObject(writeFile)
 			if err != nil {
 				fmt.Print(err)
 			}

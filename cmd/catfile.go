@@ -30,7 +30,7 @@ to quickly create a Cobra application.`,
 
 		blob_hash := args[0]
 
-		res, _ := internals.Catfile(blob_hash)
+		res, _ := internals.CatFile(blob_hash)
 		fmt.Print(res)
 	},
 }

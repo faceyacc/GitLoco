@@ -58,7 +58,7 @@ func TestCatfile(t *testing.T) {
 				t.Errorf("got %q, want %q", got, want)
 			}
 		}
-		_, got := Catfile(test_blob_hash)
+		_, got := CatFile(test_blob_hash)
 
 		assertError(t, got, "Error reading file\n")
 	})
@@ -77,7 +77,7 @@ func TestHasObject(t *testing.T) {
 	}
 	t.Run("read file", func(t *testing.T) {
 
-		_, err := Hashobject("expected")
+		_, err := HashObject("expected")
 
 		assertError(t, err, "Error reading file.\n")
 	})
