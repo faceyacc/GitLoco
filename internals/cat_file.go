@@ -14,7 +14,7 @@ import (
 func CatFile(blob_hash string) (string, error) {
 
 	// Construct the file path to the blob object using the hash
-	blob_filepath, _ := constructBlob(blob_hash)
+	blob_filepath, _ := constructObjectsFile(blob_hash)
 
 	// Try to read file
 	file, err := os.ReadFile(blob_filepath)

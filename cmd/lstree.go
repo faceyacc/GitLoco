@@ -4,6 +4,8 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/faceyacc/gitloco/internals"
 	"github.com/spf13/cobra"
 )
@@ -19,7 +21,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		internals.LsTree()
+		dummy_tree_sha := "I'm with stupid"
+		res := internals.LsTree(dummy_tree_sha)
+		fmt.Printf(res)
+
 	},
 }
 

@@ -38,7 +38,7 @@ func TestCatfile(t *testing.T) {
 	test_blob_hash := "3d21ec53a331a6f037a91c368710b99387d012c1"
 
 	t.Run("contruct file path to blob object", func(t *testing.T) {
-		blob_filepath, _ := constructBlob(test_blob_hash)
+		blob_filepath, _ := constructObjectsFile(test_blob_hash)
 		got := fmt.Sprintf(blob_filepath)
 		expected := ".git/objects/3d/21ec53a331a6f037a91c368710b99387d012c1"
 
