@@ -9,7 +9,7 @@ import (
 )
 
 // LsTre is used to inspect a tree object
-func LsTree(tree_sha string) string {
+func LsTree(tree_sha string) {
 
 	// Locate from tree_sha
 
@@ -40,6 +40,4 @@ func LsTree(tree_sha string) string {
 
 		os.Stdout.WriteString(fmt.Sprintf("%s\n", (string(item.Name))))
 	}
-
-	return string(data)
 }
