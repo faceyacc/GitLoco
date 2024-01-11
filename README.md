@@ -10,15 +10,14 @@ GitLoco is Git implementation inspired by *Thibault Polge's Write yourself a Git
 Initalize a Git repository 
 ```bash
 gitloco init
-
-```
-Print the raw contents of an object to stdout, uncompressed and header removed
-```bash
-gitloco cat-file <blob_sha>
 ```
 Store the data from `<file>` as a blob in `.git/objects` and print a 40-char SHA to stdout
 ```bash
 gitloco hash-object --w=<file>
+```
+Print the raw contents of an object to stdout, uncompressed and header removed
+```bash
+gitloco cat-file <blob_sha>
 ```
 Create a snapshot of your curreent git repository
 ```bash
