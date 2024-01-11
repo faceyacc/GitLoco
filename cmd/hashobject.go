@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// hashobjectCmd represents the hashobject command
+// Usage: 'gitloco hash-object -w <file>'
 var hashobjectCmd = &cobra.Command{
 	Use:   "hash-object",
 	Short: "A brief description of your command",

@@ -126,6 +126,3 @@ func TestHasObject(t *testing.T) {
 		}
 	})
 }
-
-func TestWriteTree(t *testing.T) {
-}

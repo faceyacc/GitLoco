@@ -4,11 +4,13 @@ Copyright © 2024 NAME HERE <justfacey@gmail.com>
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/faceyacc/gitloco/internals"
 	"github.com/spf13/cobra"
 )
 
-// writeTreeCmd represents the writeTree command
+// Usage: 'locomoco write-tree'
 var writeTreeCmd = &cobra.Command{
 	Use:   "write-tree",
 	Short: "A brief description of your command",
@@ -20,7 +22,8 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		internals.WriteTree(".")
+		_, hash := internals.WriteTree(".")
+		fmt.Printf("Git Tree hash: %v\n", hash)
 	},
 }
 

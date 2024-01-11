@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// catfileCmd represents the catfile command
+// "usage: gitloco cat-file <blob_sha>"
 var catfileCmd = &cobra.Command{
 	Use:   "cat-file",
 	Short: "A brief description of your command",

@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// lstreeCmd represents the lstree command
+// Usage: 'gitloco ls-tree <tree_sha>'
 var lstreeCmd = &cobra.Command{
 	Use:   "ls-tree",
 	Short: "A brief description of your command",
