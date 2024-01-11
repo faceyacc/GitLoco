@@ -125,5 +125,7 @@ func TestHasObject(t *testing.T) {
 			t.Errorf("Incorrect directory path. Got %v, but should be in\nthe following format: '.git/objects/0a'", test_dir)
 		}
 	})
+}
 
+func TestWriteTree(t *testing.T) {
 }

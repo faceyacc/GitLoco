@@ -12,7 +12,6 @@ import (
 func LsTree(tree_sha string) {
 
 	// Locate from tree_sha
-
 	treeFilePath, _ := constructObjectsFile(tree_sha)
 
 	// read tree object from tree sha in .git/objects
