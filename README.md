@@ -1,6 +1,6 @@
 
 # GitLoco
-GitLoco is Git implementation inspired by Thibault Polge's Write yourself a Git! GitLoco can initialize a repository, create commits and clone public repository from GitHub.
+GitLoco is Git implementation inspired by *Thibault Polge's Write yourself a Git!* GitLoco can initialize a repository, create commits and clone public repository from GitHub.
 
 
 
