@@ -18,7 +18,7 @@ gitloco cat-file <blob_sha>
 ```
 Store the data from `<file>` as a blob in `.git/objects` and print a 40-char SHA to stdout.
 ```bash
-gitloco hash-object -w <file>
+gitloco hash-object --w=<file>
 ```
 Inspect a tree object and list the contents of a tree object
 ```bash
