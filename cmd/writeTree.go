@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 Ty <justfacey@gmail.com>
+Copyright © 2024 Ty Facey <justfacey@gmail.com>
 */
 package cmd
 
