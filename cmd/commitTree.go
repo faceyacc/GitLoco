@@ -5,11 +5,12 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
 
-// commitTreeCmd represents the commitTree command
+// Usage: "gitloco commit-tree <tree_sha> -p <commit_sha> -m <message>"
 var commitTreeCmd = &cobra.Command{
 	Use:   "commit-tree",
 	Short: "A brief description of your command",
@@ -20,6 +21,16 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		// get tree_sha from args
+		if len(args[0]) < 30 {
+			fmt.Fprintf(os.Stderr, "Incorrect blob hash\n")
+			os.Exit(1)
+		}
+
+		// check if commit_sha was given from flag args
+
+		// get message from flag args
+
 		fmt.Println("commitTree called")
 	},
 }
@@ -27,13 +38,7 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(commitTreeCmd)
 
-	// Here you will define your flags and configuration settings.
+	hashobjectCmd.Flags().String("p", "", "parent hash")
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// commitTreeCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// commitTreeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	hashobjectCmd.Flags().String("m", "", "commit message")
 }
