@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/faceyacc/gitloco/internals"
 	"github.com/spf13/cobra"
 )
 
@@ -22,23 +23,42 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get tree_sha from args
-		if len(args[0]) < 30 {
-			fmt.Fprintf(os.Stderr, "Incorrect blob hash\n")
+		if len(args[0]) < 40 {
+			fmt.Fprintf(os.Stderr, "Incorrect hash tree hash\n")
 			os.Exit(1)
 		}
 
-		// check if commit_sha was given from flag args
+		tree_sha := args[0]
 
-		// get message from flag args
+		// Check if a message was given
+		message, err := cmd.Flags().GetString("m")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error writing you commit message")
+		}
+		if len(message) <= 0 {
+			fmt.Fprintf(os.Stderr, "You must add a message to your commit :)")
+		}
 
-		fmt.Println("commitTree called")
+		parent_hash, err := cmd.Flags().GetString("p")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error with your parent hash")
+		}
+
+		// Check if parent hash is of correct sha-1 length
+		if len(parent_hash) != 0 && len(parent_hash) < 40 {
+			fmt.Fprintf(os.Stderr, "Incorrect parent hash\n")
+			os.Exit(1)
+		}
+
+		sha := internals.CommitTree(tree_sha, parent_hash, message)
+		fmt.Printf("TREE COMMIT SHA: %v", sha)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(commitTreeCmd)
 
-	hashobjectCmd.Flags().String("p", "", "parent hash")
+	commitTreeCmd.Flags().String("p", "", "parent hash")
 
-	hashobjectCmd.Flags().String("m", "", "commit message")
+	commitTreeCmd.Flags().String("m", "", "commit message")
 }

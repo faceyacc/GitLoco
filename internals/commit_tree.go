@@ -1,6 +1,8 @@
 package internals
 
-import "time"
+import (
+	"time"
+)
 
 type Commit struct {
 	author  string
@@ -9,4 +11,9 @@ type Commit struct {
 	tree    string
 	parent  string
 	message string
+}
+
+func CommitTree(tree_sha string, parent_hash string, message string) string {
+
+	return "dummy sha here"
 }
