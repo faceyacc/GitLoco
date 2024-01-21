@@ -27,11 +27,19 @@ Inspect a tree object and list the contents of a tree object
 ```bash
 gitloco ls-tree <tree_sha>
 ```
+Commit a tree object
+```bash
+gitloco commit-tree <tree_object> name <Jane Doe> email <janeydoesit@email.com> m <"Just commiting here...">
+```
+Commit a tree object with optinal parent hash object using the `p` flag
+```bash
+gitloco commit-tree <tree_object> p <paren_hash_object> name <Jane Doe> email <janeydoesit@email.com> m <"Just commiting here...">
+```
 ## Roadmap
 
 - [ ] Publish and distribute with Homebrew.
 - [x] Add `write-tree` command to create tree objects.
-- [ ] Add  `commit-tree` command to allow users to create a commit using a tree_sha.
+- [x] Add  `commit-tree` command to allow users to create a commit using a tree_sha.
 - [ ] Add `clone` command to allow users to clone public repos from Github.
 
 
