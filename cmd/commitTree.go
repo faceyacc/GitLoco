@@ -50,7 +50,17 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 
-		sha := internals.CommitTree(tree_sha, parent_hash, message)
+		user_name, err := cmd.Flags().GetString("name")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error with your parent hash")
+		}
+
+		user_email, err := cmd.Flags().GetString("email")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error with your parent hash")
+		}
+
+		sha := internals.CommitTree(tree_sha, parent_hash, message, user_name, user_email)
 		fmt.Printf("TREE COMMIT SHA: %v", sha)
 	},
 }
@@ -61,4 +71,8 @@ func init() {
 	commitTreeCmd.Flags().String("p", "", "parent hash")
 
 	commitTreeCmd.Flags().String("m", "", "commit message")
+
+	commitTreeCmd.Flags().String("name", "", "full name")
+
+	commitTreeCmd.Flags().String("email", "", "email")
 }
