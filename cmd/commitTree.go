@@ -70,9 +70,9 @@ func init() {
 
 	commitTreeCmd.Flags().String("p", "", "parent hash")
 
-	commitTreeCmd.Flags().String("m", "", "commit message")
-
 	commitTreeCmd.Flags().String("name", "", "full name")
 
 	commitTreeCmd.Flags().String("email", "", "email")
+
+	commitTreeCmd.Flags().String("m", "", "commit message")
 }
